@@ -28,7 +28,7 @@ public class FImon
         "Standa Rezac",
         "Milan Buricin",
         "Mackas mi hada",
-        "Baba - ma pravo sedet",
+        "Ja mam pravo sedet",
         "Ondrej (prosim)"
     ];
     
@@ -51,6 +51,17 @@ public class FImon
         Level = 1;
         Xp = 0;
         Type = (FImonType)new Random().Next(0, 3);
+    }
+    
+    public string ToString()
+    {
+        string s = $"{Name} - {Type}: {Attack} Attack, {MaxHp} HP, {Speed} Speed";
+        if (Xp != 0 && Level != 1)
+        {
+            s += $", {Level} Level, {Xp}/100 XP";
+        }
+        
+        return s;
     }
     
     public void Heal()
