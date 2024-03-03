@@ -13,9 +13,34 @@ public static class OutputManager
         Console.ResetColor();
     }
     
+    public static void DisplayMessage(string message)
+    {
+        Console.WriteLine(message);
+    }
+    
     public static void DisplatWelcomeMessage()
     {
         Console.WriteLine("Welcome to FImon Championship! Please, choose your three FImons:");
+    }
+    
+    public static void DisplayQuitMessage()
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("\n\nOops! You just activated the self-destruct sequence. Prepare for explosion in 3");
+        System.Threading.Thread.Sleep(1000);
+        Console.WriteLine("2");
+        System.Threading.Thread.Sleep(1000);
+        Console.WriteLine("1");
+        System.Threading.Thread.Sleep(1000);
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Just kidding! Thanks for playing. Have a great day!");
+    }
+    
+    public static void DisplayWinnerMessage()
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Congratulations! You have won the FImon Championship!");
+        Console.ResetColor();
     }
 
     public static void DisplayFImonsWithNumbers(List<FImon> fimons)
@@ -23,10 +48,10 @@ public static class OutputManager
         for (int i = 0; i < fimons.Count; i++)
         {
             Console.Write($"{i + 1}. ");
-            DisplayFImonName(fimons[i]);
-            Console.WriteLine($": {fimons[i].FImonAttributes()}");
+            DisplayFImon(fimons[i]);
         }
     }
+    
     
     public static void DisplaySelectedFImons(List<FImon> fimons)
     {
@@ -46,6 +71,31 @@ public static class OutputManager
         Console.WriteLine("Your commands are: check, fight, info, sort, quit.");
     }
 
+    public static void DisplayInfo(int roundsWon, Trainer player)
+    {
+        Console.WriteLine($"Battles won: {roundsWon}");
+        Console.WriteLine("Your FImons:");
+        foreach (FImon fImon in player.FImons)
+        {
+            DisplayFImon(fImon);
+        }
+    }
+    
+    public static void DisplayEnemyInfo(Trainer enemy)
+    {
+        Console.WriteLine("The next trainer has these FImons:");
+        foreach (FImon fImon in enemy.FImons)
+        {
+            DisplayFImon(fImon);
+        }
+    }
+    
+    public static void DisplaySortMessage(Trainer player)
+    {
+        Console.WriteLine("Choose the order:");
+        DisplayFImonsWithNumbers(player.FImons);
+    }
+
     private static ConsoleColor ColorForFImon(FImon fImon) => fImon.Type switch
     {
         FImonType.Fire => ConsoleColor.Red,
@@ -59,6 +109,12 @@ public static class OutputManager
         Console.ForegroundColor = ColorForFImon(fImon);
         Console.Write(fImon.Name);
         Console.ResetColor();
+    }
+    
+    private static void DisplayFImon(FImon fimon)
+    {
+        DisplayFImonName(fimon);
+        Console.WriteLine($": {fimon.FImonAttributes()}");
     }
     
 }

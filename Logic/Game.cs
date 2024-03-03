@@ -17,6 +17,7 @@ public class Game : IGame
         roundsWon = 0;
         player = SelectFImons();
         enemy = new Trainer();
+        Play();
     }
     
     private Trainer SelectFImons()
@@ -68,5 +69,66 @@ public class Game : IGame
         }
     }
 
-
+    private void Play()
+    {
+        while (roundsWon < 3)
+        {
+            string input = Console.ReadLine();
+            if (string.IsNullOrEmpty(input)) 
+            {
+                continue;
+            }
+    
+            switch (input.Split(" ")[0].ToLower())
+            {
+                case "check":
+                    OutputManager.DisplayEnemyInfo(enemy);
+                    break;
+                case "fight":
+                    break;
+                case "info":
+                    OutputManager.DisplayInfo(roundsWon, player);
+                    break;
+                case "sort":
+                    OutputManager.DisplaySortMessage(player);
+                    while (true)
+                    {
+                        string order_string = Console.ReadLine();
+                        if (string.IsNullOrEmpty(order_string)) 
+                        {
+                            continue;
+                        }
+                        
+                        string[] order = order_string.Split(" ");
+                        
+                        if (order.Length == 3 && int.TryParse(order[0], out int x) && int.TryParse(order[1], out int y) && int.TryParse(order[2], out int z))
+                        {
+                            if (x >= 1 && x <= 3 && y >= 1 && y <= 3 && z >= 1 && z <= 3 && x != y && x != z && y != z)
+                            {
+                                player.FImons = new List<FImon> {player.FImons[x - 1], player.FImons[y - 1], player.FImons[z - 1]};
+                                OutputManager.DisplayMessage("The order of your FImons has been updated.");
+                                break;
+                            }
+                        }
+                        OutputManager.DisplayErrorMessage("Invalid input! Enter the order in the format 'x y z' (where x, y, z are uniqie numbers between 1 and 3):");
+                        
+                    }
+                    break;
+                case "quit":
+                    OutputManager.DisplayQuitMessage();
+                    return;
+                default:
+                    OutputManager.DisplayErrorMessage("Invalid command! Your commands are: check, fight, info, sort, quit.");
+                    break;
+            }
+            
+            // IBattle battle = new Battle();
+            // Trainer winner = battle.PerformBattle(player, enemy);
+            // if (winner == player)
+            // {
+            //     roundsWon++;
+            // }
+        }
+        OutputManager.DisplayWinnerMessage();
+    }
 }

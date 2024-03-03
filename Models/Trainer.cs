@@ -4,7 +4,7 @@ namespace HW01_2024.Models;
 
 public class Trainer
 {
-    public List<FImon> FImons { get; private set; }
+    public List<FImon> FImons { get; set; }
     
     public Trainer()
     {
