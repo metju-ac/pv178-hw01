@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HW01_2024.Interfaces;
 using HW01_2024.Models;
+using HW01_2024.Utils;
 
 namespace HW01_2024.Logic;
 
@@ -14,20 +15,19 @@ public class Game : IGame
     public void Start()
     {
         roundsWon = 0;
-        player = selectFImons();
+        player = SelectFImons();
         enemy = new Trainer();
     }
     
-    private Trainer selectFImons()
+    private Trainer SelectFImons()
     {
-        Console.WriteLine("Welcome to FImon Championship! Please, choose your three FImons:");
+        OutputManager.DisplatWelcomeMessage();
         List<FImon> fImons = new List<FImon>();
         for (int i = 0; i < 6; i++)
         {
-            FImon fimon = new FImon();
-            fImons.Add(fimon);
-            Console.WriteLine($"{i + 1}. {fimon.ToString()}");
+            fImons.Add(new FImon());
         }
+        OutputManager.DisplayFImonsWithNumbers(fImons);
         
         while (true) 
         {
@@ -40,7 +40,7 @@ public class Game : IGame
             
             if (splittedInput.Length != 4 || splittedInput[0].ToLower() != "start")
             {
-                Console.WriteLine("Invalid input! Enter input in the format 'start x y z' (where x, y, z are numbers between 1 and 6):");
+                OutputManager.DisplayErrorMessage("Invalid input! Enter input in the format 'start x y z' (where x, y, z are numbers between 1 and 6):");
                 continue;
             }
             
@@ -55,17 +55,18 @@ public class Game : IGame
             }
             if (!validNumbers)
             {
-                Console.WriteLine("Invalid input! Please enter unique numbers between 1 and 6:");
+                OutputManager.DisplayErrorMessage("Invalid input! Please enter unique numbers between 1 and 6:");
                 continue;
             }
 
             FImon fst = fImons[int.Parse(splittedInput[1]) - 1];
             FImon snd = fImons[int.Parse(splittedInput[2]) - 1];
             FImon trd = fImons[int.Parse(splittedInput[3]) - 1];
-            Console.WriteLine($"You have chosen {fst.Name}, {snd.Name} and {trd.Name}");
-            Console.WriteLine("Your commands are: check, fight, info, sort, quit.");
             
+            OutputManager.DisplaySelectedFImons([fst, snd, trd]);
             return new Trainer([fst, snd, trd]);
         }
     }
+
+
 }

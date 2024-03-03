@@ -44,8 +44,8 @@ public class FImon
     public FImon()
     {
         Name = _names[new Random().Next(0, _names.Count)];
-        Attack = new Random().Next(1, 10);
-        MaxHp = new Random().Next(1, 10);
+        Attack = new Random().Next(1, 5);
+        MaxHp = new Random().Next(5, 11);
         CurrentHp = MaxHp;
         Speed = new Random().Next(1, 10);
         Level = 1;
@@ -53,9 +53,9 @@ public class FImon
         Type = (FImonType)new Random().Next(0, 3);
     }
     
-    public string ToString()
+    public string FImonAttributes()
     {
-        string s = $"{Name} - {Type}: {Attack} Attack, {MaxHp} HP, {Speed} Speed";
+        string s = $"{Attack} Attack, {MaxHp} HP, {Speed} Speed";
         if (Xp != 0 && Level != 1)
         {
             s += $", {Level} Level, {Xp}/100 XP";
