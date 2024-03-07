@@ -16,7 +16,7 @@ public class Game : IGame
     {
         roundsWon = 0;
         player = SelectFImons();
-        enemy = new Trainer();
+        enemy = new Trainer(roundsWon + 1);
         Play();
     }
     
@@ -85,6 +85,17 @@ public class Game : IGame
                     OutputManager.DisplayEnemyInfo(enemy);
                     break;
                 case "fight":
+                    IBattle battle = new Battle();
+                    Trainer winner = battle.PerformBattle(player, enemy);
+                    if (winner == player)
+                    {
+                        player.BattleEnded(true);
+                        enemy = new Trainer(++roundsWon + 1);
+                    }
+                    else
+                    {
+                        player.BattleEnded(false);
+                    }
                     break;
                 case "info":
                     OutputManager.DisplayInfo(roundsWon, player);
@@ -121,13 +132,6 @@ public class Game : IGame
                     OutputManager.DisplayErrorMessage("Invalid command! Your commands are: check, fight, info, sort, quit.");
                     break;
             }
-            
-            // IBattle battle = new Battle();
-            // Trainer winner = battle.PerformBattle(player, enemy);
-            // if (winner == player)
-            // {
-            //     roundsWon++;
-            // }
         }
         OutputManager.DisplayWinnerMessage();
     }

@@ -35,7 +35,7 @@ public class FImon
     public string Name { get; private set;  }
     public int Attack { get; private set; }
     public int MaxHp { get; private set; }
-    public int CurrentHp { get; private set; }
+    public int CurrentHp { get; set; }
     public int Speed { get; private set; }
     public int Level { get; private set; }
     public int Xp { get; private set; }
@@ -56,7 +56,7 @@ public class FImon
     public string FImonAttributes()
     {
         string s = $"{Attack} Attack, {MaxHp} HP, {Speed} Speed";
-        if (Xp != 0 && Level != 1)
+        if (Xp != 0 || Level != 1)
         {
             s += $", {Level} Level, {Xp}/100 XP";
         }
