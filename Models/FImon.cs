@@ -55,7 +55,7 @@ public class FImon
     
     public string FImonAttributes()
     {
-        string s = $"{Attack} Attack, {MaxHp} HP, {Speed} Speed";
+        string s = $"{Attack} Attack, {CurrentHp} HP, {Speed} Speed";
         if (Xp != 0 || Level != 1)
         {
             s += $", {Level} Level, {Xp}/100 XP";

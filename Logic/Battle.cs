@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using HW01_2024.Interfaces;
 using HW01_2024.Models;
+using HW01_2024.Utils;
 
 namespace HW01_2024.Logic;
 
@@ -32,20 +33,20 @@ public class Battle : IBattle
             slower = playerFImon;
         }
 
-        int attack;
+        int damage;
         while (faster.CurrentHp > 0 && slower.CurrentHp > 0)
         {
-            attack = (int)Math.Round(faster.Attack * AttackMultiplier(faster, slower));
-            slower.CurrentHp -= attack;
-            Console.WriteLine($"{faster.Name} attacks {slower.Name} for {attack} damage. {slower.Name} has {slower.CurrentHp} HP left.");
+            damage = (int)Math.Round(faster.Attack * AttackMultiplier(faster, slower));
+            slower.CurrentHp -= damage;
+            OutputManager.DisplayAttack(faster, slower, damage);
             if (slower.CurrentHp <= 0)
             {
                 return faster;
             }
             
-            attack = (int)Math.Round(slower.Attack * AttackMultiplier(slower, faster));
-            faster.CurrentHp -= attack;
-            Console.WriteLine($"{slower.Name} attacks {faster.Name} for {attack} damage. {faster.Name} has {faster.CurrentHp} HP left.");
+            damage = (int)Math.Round(slower.Attack * AttackMultiplier(slower, faster));
+            faster.CurrentHp -= damage;
+            OutputManager.DisplayAttack(slower, faster, damage);
             if (faster.CurrentHp <= 0)
             {
                 return slower;
@@ -64,16 +65,16 @@ public class Battle : IBattle
         
         while (playerFImonIndex < player.FImons.Count && enemyFImonIndex < enemy.FImons.Count)
         {
-            Console.WriteLine($"Round {round}");
+            OutputManager.DisplayMessage($"Round {round}");
             FImon winner = PerformDuel(player.FImons[playerFImonIndex], enemy.FImons[enemyFImonIndex]);
             if (winner == player.FImons[playerFImonIndex])
             {
-                Console.WriteLine($"{player.FImons[playerFImonIndex].Name} wins!");
+                OutputManager.DisplayWinningFImom(player.FImons[playerFImonIndex]);
                 enemyFImonIndex++;
             }
             else
             {
-                Console.WriteLine($"{enemy.FImons[enemyFImonIndex].Name} wins!");
+                OutputManager.DisplayWinningFImom(enemy.FImons[enemyFImonIndex]);
                 playerFImonIndex++;
             }
             round++;
@@ -81,11 +82,10 @@ public class Battle : IBattle
         
         if (playerFImonIndex == player.FImons.Count)
         {
-            Console.WriteLine("You lost the battle.");
+            OutputManager.DisplayMessage("You lost the battle.");
             return enemy;
         }
-        Console.WriteLine("You won the battle!");
+        OutputManager.DisplayMessage("You won the battle!");
         return player;
-        
     }
 }

@@ -23,7 +23,7 @@ public class Trainer
         FImons = fImons;
     }
     
-    private void HealFImons()
+    public void HealFImons()
     {
         foreach (FImon fImon in FImons)
         {
@@ -36,9 +36,7 @@ public class Trainer
         foreach (FImon fImon in FImons)
         {
             fImon.GainXp(new Random().Next(30, 100) * (won ? 2 : 1));
-            
         }
         HealFImons();
     }
-    
 }

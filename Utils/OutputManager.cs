@@ -95,6 +95,28 @@ public static class OutputManager
         Console.WriteLine("Choose the order:");
         DisplayFImonsWithNumbers(player.FImons);
     }
+    
+    public static void DisplayAttack(FImon attacker, FImon defender, int damage)
+    {
+        DisplayFImonName(attacker);
+        Console.Write(" attacks ");
+        DisplayFImonName(defender);
+        Console.WriteLine($" for {damage} damage. ");
+        DisplayFImonName(defender);
+        if (defender.CurrentHp <= 0)
+        {
+            Console.WriteLine(" has fainted.");
+            return;
+        }
+        Console.WriteLine($" has {defender.CurrentHp} HP left.");
+        System.Threading.Thread.Sleep(1000);
+    }
+    
+    public static void DisplayWinningFImom(FImon fImon)
+    {
+        DisplayFImonName(fImon);
+        Console.WriteLine(" wins!");
+    }
 
     private static ConsoleColor ColorForFImon(FImon fImon) => fImon.Type switch
     {

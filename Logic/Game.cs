@@ -95,6 +95,7 @@ public class Game : IGame
                     else
                     {
                         player.BattleEnded(false);
+                        enemy.HealFImons();
                     }
                     break;
                 case "info":
