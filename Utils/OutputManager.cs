@@ -18,7 +18,7 @@ public static class OutputManager
         Console.WriteLine(message);
     }
     
-    public static void DisplatWelcomeMessage()
+    public static void DisplayWelcomeMessage()
     {
         Console.WriteLine("Welcome to FImon Championship! Please, choose your three FImons:");
     }

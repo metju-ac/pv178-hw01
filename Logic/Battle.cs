@@ -33,10 +33,9 @@ public class Battle : IBattle
             slower = playerFImon;
         }
 
-        int damage;
         while (faster.CurrentHp > 0 && slower.CurrentHp > 0)
         {
-            damage = (int)Math.Round(faster.Attack * AttackMultiplier(faster, slower));
+            var damage = (int)Math.Round(faster.Attack * AttackMultiplier(faster, slower));
             slower.CurrentHp -= damage;
             OutputManager.DisplayAttack(faster, slower, damage);
             if (slower.CurrentHp <= 0)

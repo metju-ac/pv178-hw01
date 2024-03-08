@@ -34,11 +34,11 @@ public class FImon
     
     public string Name { get; private set;  }
     public int Attack { get; private set; }
-    public int MaxHp { get; private set; }
+    private int MaxHp { get; set; }
     public int CurrentHp { get; set; }
-    public int Speed { get; private set; }
-    public int Level { get; private set; }
-    public int Xp { get; private set; }
+    public int Speed { get;  }
+    private int Level { get; set; }
+    private int Xp { get; set; }
     public FImonType Type { get; private set; }
     
     public FImon()

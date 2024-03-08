@@ -8,21 +8,21 @@ namespace HW01_2024.Logic;
 
 public class Game : IGame
 {
-    private Trainer player {get; set;}
-    private Trainer enemy {get; set;}
-    private int roundsWon {get; set;}
+    private Trainer Player {get; set;}
+    private Trainer Enemy {get; set;}
+    private int RoundsWon {get; set;}
     
     public void Start()
     {
-        roundsWon = 0;
-        player = SelectFImons();
-        enemy = new Trainer(roundsWon + 1);
+        RoundsWon = 0;
+        Player = SelectFImons();
+        Enemy = new Trainer(RoundsWon + 1);
         Play();
     }
     
     private Trainer SelectFImons()
     {
-        OutputManager.DisplatWelcomeMessage();
+        OutputManager.DisplayWelcomeMessage();
         List<FImon> fImons = new List<FImon>();
         for (int i = 0; i < 6; i++)
         {
@@ -37,9 +37,9 @@ public class Game : IGame
             {
                 continue;
             }
-            string[] splittedInput = input.Split(" ");
+            string[] splitInput = input.Split(" ");
             
-            if (splittedInput.Length != 4 || splittedInput[0].ToLower() != "start")
+            if (splitInput.Length != 4 || splitInput[0].ToLower() != "start")
             {
                 OutputManager.DisplayErrorMessage("Invalid input! Enter input in the format 'start x y z' (where x, y, z are numbers between 1 and 6):");
                 continue;
@@ -47,9 +47,9 @@ public class Game : IGame
             
             HashSet<int> uniqueNumbers = new HashSet<int>();
             bool validNumbers = true;
-            for (int i = 1; i < splittedInput.Length; i++)
+            for (int i = 1; i < splitInput.Length; i++)
             {
-                if (!int.TryParse(splittedInput[i], out int number) || number < 1 || number > 6 || !uniqueNumbers.Add(number))
+                if (!int.TryParse(splitInput[i], out int number) || number < 1 || number > 6 || !uniqueNumbers.Add(number))
                 {
                     validNumbers = false;
                 }
@@ -60,9 +60,9 @@ public class Game : IGame
                 continue;
             }
 
-            FImon fst = fImons[int.Parse(splittedInput[1]) - 1];
-            FImon snd = fImons[int.Parse(splittedInput[2]) - 1];
-            FImon trd = fImons[int.Parse(splittedInput[3]) - 1];
+            FImon fst = fImons[int.Parse(splitInput[1]) - 1];
+            FImon snd = fImons[int.Parse(splitInput[2]) - 1];
+            FImon trd = fImons[int.Parse(splitInput[3]) - 1];
             
             OutputManager.DisplaySelectedFImons([fst, snd, trd]);
             return new Trainer([fst, snd, trd]);
@@ -71,7 +71,7 @@ public class Game : IGame
 
     private void Play()
     {
-        while (roundsWon < 3)
+        while (RoundsWon < 3)
         {
             string input = Console.ReadLine();
             if (string.IsNullOrEmpty(input)) 
@@ -82,48 +82,47 @@ public class Game : IGame
             switch (input.Split(" ")[0].ToLower())
             {
                 case "check":
-                    OutputManager.DisplayEnemyInfo(enemy);
+                    OutputManager.DisplayEnemyInfo(Enemy);
                     break;
                 case "fight":
                     IBattle battle = new Battle();
-                    Trainer winner = battle.PerformBattle(player, enemy);
-                    if (winner == player)
+                    Trainer winner = battle.PerformBattle(Player, Enemy);
+                    if (winner == Player)
                     {
-                        player.BattleEnded(true);
-                        enemy = new Trainer(++roundsWon + 1);
+                        Player.BattleEnded(true);
+                        Enemy = new Trainer(++RoundsWon + 1);
                     }
                     else
                     {
-                        player.BattleEnded(false);
-                        enemy.HealFImons();
+                        Player.BattleEnded(false);
+                        Enemy.HealFImons();
                     }
                     break;
                 case "info":
-                    OutputManager.DisplayInfo(roundsWon, player);
+                    OutputManager.DisplayInfo(RoundsWon, Player);
                     break;
                 case "sort":
-                    OutputManager.DisplaySortMessage(player);
+                    OutputManager.DisplaySortMessage(Player);
                     while (true)
                     {
-                        string order_string = Console.ReadLine();
-                        if (string.IsNullOrEmpty(order_string)) 
+                        string orderString = Console.ReadLine();
+                        if (string.IsNullOrEmpty(orderString)) 
                         {
                             continue;
                         }
                         
-                        string[] order = order_string.Split(" ");
+                        string[] order = orderString.Split(" ");
                         
                         if (order.Length == 3 && int.TryParse(order[0], out int x) && int.TryParse(order[1], out int y) && int.TryParse(order[2], out int z))
                         {
                             if (x >= 1 && x <= 3 && y >= 1 && y <= 3 && z >= 1 && z <= 3 && x != y && x != z && y != z)
                             {
-                                player.FImons = new List<FImon> {player.FImons[x - 1], player.FImons[y - 1], player.FImons[z - 1]};
+                                Player.FImons = [Player.FImons[x - 1], Player.FImons[y - 1], Player.FImons[z - 1]];
                                 OutputManager.DisplayMessage("The order of your FImons has been updated.");
                                 break;
                             }
                         }
-                        OutputManager.DisplayErrorMessage("Invalid input! Enter the order in the format 'x y z' (where x, y, z are uniqie numbers between 1 and 3):");
-                        
+                        OutputManager.DisplayErrorMessage("Invalid input! Enter the order in the format 'x y z' (where x, y, z are unique numbers between 1 and 3):");
                     }
                     break;
                 case "quit":
