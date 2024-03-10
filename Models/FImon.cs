@@ -35,7 +35,7 @@ public class FImon
     public string Name { get; private set;  }
     public int Attack { get; private set; }
     private int MaxHp { get; set; }
-    public int CurrentHp { get; set; }
+    public int CurrentHp { get; private set; }
     public int Speed { get;  }
     private int Level { get; set; }
     private int Xp { get; set; }
@@ -51,6 +51,18 @@ public class FImon
         Level = 1;
         Xp = 0;
         Type = (FImonType)new Random().Next(0, 3);
+    }
+    
+    public FImon(int attack, int maxHp, int speed, FImonType type)
+    {
+        Name = _names[new Random().Next(0, _names.Count)];
+        Attack = attack;
+        MaxHp = maxHp;
+        CurrentHp = MaxHp;
+        Speed = speed;
+        Level = 1;
+        Xp = 0;
+        Type = type;
     }
     
     public string FImonAttributes()
@@ -79,6 +91,11 @@ public class FImon
             Attack += new Random().Next(1, 4);
             MaxHp += new Random().Next(1, 4);
         }
+    }
+    
+    public void AbsorbDamage(int damage)
+    {
+        CurrentHp = (CurrentHp -= damage) < 0 ? 0 : CurrentHp;
     }
     
 }

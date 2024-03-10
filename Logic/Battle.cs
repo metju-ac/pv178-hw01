@@ -35,7 +35,7 @@ public class Battle : IBattle
         while (faster.CurrentHp > 0 && slower.CurrentHp > 0)
         {
             int damage = faster.Attack * AttackMultiplier(faster, slower);
-            slower.CurrentHp -= damage;
+            slower.AbsorbDamage(damage);
             OutputManager.DisplayAttack(faster, slower, damage);
             if (slower.CurrentHp <= 0)
             {
@@ -43,7 +43,7 @@ public class Battle : IBattle
             }
             
             damage = slower.Attack * AttackMultiplier(slower, faster);
-            faster.CurrentHp -= damage;
+            faster.AbsorbDamage(damage);
             OutputManager.DisplayAttack(slower, faster, damage);
             if (faster.CurrentHp <= 0)
             {
