@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using HW01_2024.Interfaces;
 using HW01_2024.Models;
@@ -8,13 +7,13 @@ namespace HW01_2024.Logic;
 
 public class Battle : IBattle
 {
-    private double AttackMultiplier(FImon attacker, FImon defender)
+    private int AttackMultiplier(FImon attacker, FImon defender)
     {
         if (attacker.Type == FImonType.Fire && defender.Type == FImonType.Leaf ||
             attacker.Type == FImonType.Sea && defender.Type == FImonType.Fire ||
             attacker.Type == FImonType.Leaf && defender.Type == FImonType.Sea)
         {
-            return 1.5;
+            return 2;
         }
         return 1;
     }
@@ -35,7 +34,7 @@ public class Battle : IBattle
 
         while (faster.CurrentHp > 0 && slower.CurrentHp > 0)
         {
-            var damage = (int)Math.Round(faster.Attack * AttackMultiplier(faster, slower));
+            int damage = faster.Attack * AttackMultiplier(faster, slower);
             slower.CurrentHp -= damage;
             OutputManager.DisplayAttack(faster, slower, damage);
             if (slower.CurrentHp <= 0)
@@ -43,7 +42,7 @@ public class Battle : IBattle
                 return faster;
             }
             
-            damage = (int)Math.Round(slower.Attack * AttackMultiplier(slower, faster));
+            damage = slower.Attack * AttackMultiplier(slower, faster);
             faster.CurrentHp -= damage;
             OutputManager.DisplayAttack(slower, faster, damage);
             if (faster.CurrentHp <= 0)
